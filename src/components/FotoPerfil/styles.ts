@@ -10,6 +10,18 @@ export const Imagem = styled.div`
     img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
+    }
+
+    &::after {
+        position: absolute;
+        background-color: #000;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        content: '';
+        opacity: 0.56;
     }
 
     p {
@@ -21,6 +33,7 @@ export const Imagem = styled.div`
         font-size: 32px;
         line-height: 32px;
         color: #fff;
+        z-index: 1;
     }
 
     h3 {
@@ -31,5 +44,6 @@ export const Imagem = styled.div`
         font-size: 32px;
         left: 170px;
         color: #fff;
+        z-index: 1;
     }
 `

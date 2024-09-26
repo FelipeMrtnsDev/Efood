@@ -1,73 +1,45 @@
-import FotoPerfil from "../../components/FotoPerfil";
+import FotoPerfil, { Foto } from "../../components/FotoPerfil";
 import HeaderPerfil from "../../components/HeaderPerfil";
-import PerfilRestaurante from "../../models/PerfilRestaurante";
-import macarraoPerfil from '../../assets/images/macarraoPerfil.png'
-import ItensRestaurante from "../../models/ItensRestaurante";
-import pizza from '../../assets/images/pizza.png'
-import ListItensRestaurante from "../../containers/ListItemRestaurante";
-
-    export const Restaurantes: PerfilRestaurante[] = [
-        {
-            titulo: 'La Dolce Vita Trattoria',
-            image: macarraoPerfil,
-            etiqueta: 'Italiana'
-        },
-        {
-            titulo: 'Hioki Sushi',
-            image: macarraoPerfil,
-            etiqueta: 'Japonesa'
-        }
-    ]
-
-    export const itens: ItensRestaurante[] = [
-        {
-            id: 1,
-            imagem: pizza,
-            descricao: 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-            titulo: 'Pizza Marguerita'
-        },
-        {
-            id: 2,
-            imagem: pizza,
-            descricao: 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-            titulo: 'Pizza Marguerita'
-        },
-        {
-            id: 3,
-            imagem: pizza,
-            descricao: 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-            titulo: 'Pizza Marguerita'
-        },
-        {
-            id: 4,
-            imagem: pizza,
-            descricao: 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-            titulo: 'Pizza Marguerita'
-        },
-        {
-            id: 5,
-            imagem: pizza,
-            descricao: 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-            titulo: 'Pizza Marguerita'
-        },
-        {
-            id: 6,
-            imagem: pizza,
-            descricao: 'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!',
-            titulo: 'Pizza Marguerita'
-        }
-    ]
+import ListItensRestaurante, { ItensRestaurante } from "../../containers/ListItemRestaurante";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 function Perfil() {
-    return(
+    const [foto, setFoto] = useState<Foto[]>([]);
+    const [itens, setItens] = useState<ItensRestaurante[]>([]);
+    const { id } = useParams<{ id: string }>();
+
+    useEffect(() => {
+        fetch("https://fake-api-tau.vercel.app/api/efood/restaurantes")
+            .then((res) => res.json())
+            .then((res) => setFoto(res));
+
+        fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+            .then((res) => res.json())
+            .then((res) => {
+                setItens([res]);
+            });
+    }, [id]);
+
+    const fotoFiltrada = id ? foto.find((foto) => foto.id === parseInt(id)) : undefined;
+
+    const itemFiltrado = id ? itens[0] : undefined;
+
+    const primeiroCardapio = itemFiltrado?.cardapio[0];
+
+    return (
         <>
             <HeaderPerfil />
-            <FotoPerfil />
+            <FotoPerfil foto={fotoFiltrada} />
             <ListItensRestaurante
-                itens={itens}
+                porcao={primeiroCardapio?.porcao || ''}
+                itens={itemFiltrado ? [itemFiltrado] : []} 
+                name={primeiroCardapio?.nome || ''}
+                descricao={primeiroCardapio?.descricao || ''} 
+                preco={primeiroCardapio ? primeiroCardapio.preco : 0} 
             />
         </>
-    )
+    );
 }
 
-export default Perfil
+export default Perfil;

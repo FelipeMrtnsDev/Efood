@@ -1,33 +1,27 @@
-import { useParams } from "react-router-dom"
-import { Restaurantes } from '../../pages/Perfil'
 import { Imagem } from "./styles";
 
-function FotoPerfil() {
-    const { titulo } = useParams<{ titulo: string }>();
+export type Foto = {
+    capa: string
+    titulo: string
+    id: number
+    tipo: string
+}
 
-    const restaurante = Restaurantes.find(r => r.titulo === titulo);
+type Props = {
+    foto: Foto | undefined
+}
 
-    let imagem: string = '';
-    let etiqueta: string = '';
-    let tituloRestaurante: string = '';
-    let errorMessage: string = '';
+function FotoPerfil({ foto }: Props) {
 
-    if (restaurante) {
-        imagem = restaurante.image;
-        etiqueta = restaurante.etiqueta;
-        tituloRestaurante = restaurante.titulo;
-    } else {
-        errorMessage = 'Restaurante não encontrado';
-    }
-
+    let errorMessage = 'Restaurante não encontrado';
 
     return(
         <>
-            {restaurante ? (
+            {foto ? (
                 <Imagem>
-                    <p>{etiqueta}</p>
-                    <h3>{tituloRestaurante}</h3>
-                    <img src={imagem} alt="" />
+                    <h3>{foto.titulo}</h3>
+                    <p>{foto.tipo}</p>
+                    <img src={foto.capa} alt="" />
                 </Imagem>
                 ) : (
                     <div>{errorMessage}</div>

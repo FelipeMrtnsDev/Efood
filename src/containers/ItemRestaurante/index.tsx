@@ -6,11 +6,12 @@ type Props = {
     titulo: string,
     descricao: string,
     id: number
+    onClick: any
 }
 
-function ItemRestaurante({ imagem, alt, titulo,descricao, id }: Props) {
+function ItemRestaurante({ imagem, alt, titulo,descricao, id, onClick }: Props) {
     return(
-            <Card key={id}>
+            <Card onClick={onClick} key={id}>
                 <Imagem>
                     <img src={imagem} alt={alt} />
                 </Imagem>

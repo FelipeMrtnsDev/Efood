@@ -1,9 +1,19 @@
 import CardRestaurante from "../CardRestaurante"
-import Restaurante from "../../models/Restaurante"
 import { CardsRestaurante } from './styles'
 
+type restaurantes = {
+    capa: string
+    alt: string
+    nome: string
+    avaliacao: number
+    descricao: string
+    tipo: string
+    destacado?: boolean
+    id: number
+}
+
 type Props = {
-    restaurantes: Restaurante[]
+    restaurantes: restaurantes[]
 }
 
 function ListCardRestaurante({ restaurantes }: Props) {
@@ -11,14 +21,14 @@ function ListCardRestaurante({ restaurantes }: Props) {
         <CardsRestaurante>
             {restaurantes.map((restaurante) => (
                 <CardRestaurante
-                key={restaurante.id}
-                etiqueta2={restaurante.etiqueta2}
-                etiqueta1={restaurante.etiqueta1}
+                id={restaurante.id}
+                etiqueta2={restaurante.destacado}
+                etiqueta1={restaurante.tipo}
                 alt={restaurante.alt}
                 avaliacao={restaurante.avaliacao}
                 descricao={restaurante.descricao}
-                imagem={restaurante.imagem}
-                titulo={restaurante.titulo}
+                imagem={restaurante.capa}
+                nome={restaurante.nome}
                 />
             ))}
         </CardsRestaurante>
