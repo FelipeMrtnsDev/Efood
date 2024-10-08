@@ -1,19 +1,9 @@
+import { Product } from "../../pages/Home"
 import CardRestaurante from "../CardRestaurante"
 import { CardsRestaurante } from './styles'
 
-type restaurantes = {
-    capa: string
-    alt: string
-    nome: string
-    avaliacao: number
-    descricao: string
-    tipo: string
-    destacado?: boolean
-    id: number
-}
-
 type Props = {
-    restaurantes: restaurantes[]
+    restaurantes: Product[]
 }
 
 function ListCardRestaurante({ restaurantes }: Props) {
@@ -24,11 +14,11 @@ function ListCardRestaurante({ restaurantes }: Props) {
                 id={restaurante.id}
                 etiqueta2={restaurante.destacado}
                 etiqueta1={restaurante.tipo}
-                alt={restaurante.alt}
+                alt={restaurante.titulo}
                 avaliacao={restaurante.avaliacao}
                 descricao={restaurante.descricao}
                 imagem={restaurante.capa}
-                nome={restaurante.nome}
+                nome={restaurante.titulo}
                 />
             ))}
         </CardsRestaurante>

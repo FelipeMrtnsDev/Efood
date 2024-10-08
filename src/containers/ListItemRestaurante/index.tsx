@@ -1,32 +1,13 @@
+import { useDispatch } from "react-redux";
 import ItemRestaurante from "../ItemRestaurante";
 import { Listagem, Modal, ModalContent } from "./styles";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
-
-export type CardapioItem = {
-    id: number;
-    nome: string;
-    descricao: string;
-    foto: string;
-    porcao: string;
-    preco: number
-};
-
-export type ItensRestaurante = {
-    id: number;
-    titulo: string;
-    imagem: string;
-    descricao: string;
-    alt?: string;
-    cardapio: CardapioItem[];
-};
+import { add } from "../../store/reducer/cartReducer";
+import { Cardapio, Product } from "../../pages/Home";
 
 type Props = {
-    name: string
-    descricao: string
-    preco: number
-    porcao: string
-    itens: ItensRestaurante[];
+    itens: Product;
 };
 
 type ModalState = {
@@ -34,38 +15,42 @@ type ModalState = {
     url: string;
 };
 
-function ListItensRestaurante({ itens, name, descricao, preco, porcao }: Props) {
+function ListItensRestaurante({ itens }: Props) {
+    const dispatch = useDispatch();
     const [modal, setModal] = useState<ModalState>({
         isVisible: false,
         url: ''
     });
+    const [itemClicado, setItemClicado] = useState(0)
+
+    const addToCart = (item: Product) => {
+        dispatch(add(item)); 
+    };
 
     const getDescricao = (descricao: string) => {
-        if (descricao.length > 134) {
-            return descricao.slice(0, 134) + '...';
-        }
-        return descricao;
+        return descricao.length > 134 ? descricao.slice(0, 134) + '...' : descricao;
     };
 
     const closeModal = () => {
         setModal({
             isVisible: false,
             url: ''
-        })
-    }
+        });
+    };
 
-    const getIdHandleClick = (item: CardapioItem) => {
+    const getIdHandleClick = (item: Cardapio) => {
         setModal({
             isVisible: true,
             url: item.foto
         });
+        setItemClicado(item.id)
     };
 
     return (
         <>
             <Listagem>
-                {itens.map((itemRestaurante) => (
-                    itemRestaurante.cardapio.map((item) => (
+                {itens.cardapio.map((item) => {
+                    return(
                         <ItemRestaurante
                             onClick={() => getIdHandleClick(item)}
                             alt={item.nome}
@@ -75,24 +60,28 @@ function ListItensRestaurante({ itens, name, descricao, preco, porcao }: Props) 
                             titulo={item.nome}
                             key={item.id}
                         />
-                    ))
-                ))}
+                    )
+                })}
             </Listagem>
             <Modal className={modal.isVisible ? 'visivel' : ''}>
                 <ModalContent>
-                    <IoClose onClick={() => closeModal()}/>
+                    <IoClose onClick={closeModal} />
                     <div className="img-container">
                         <img src={modal.url} alt={modal.url} />
                     </div>
-                    <div className="infos">
-                        <h4>{name}</h4>
-                        <p>{descricao}</p>
-                        <p>{porcao}</p>
-                        <button>Adicionar ao carrinho - R$ {preco}</button>
-                    </div>
+                    {itens.cardapio.map((cardapioItem: Cardapio) => cardapioItem.id === itemClicado ? (
+                        <div className="infos" key={cardapioItem.id}>
+                            <h4>{cardapioItem.nome}</h4>
+                            <p>{cardapioItem.descricao}</p>
+                            <p>{cardapioItem.porcao}</p>
+                            <button onClick={() => addToCart(itens)}>
+                                Adicionar ao carrinho - R$ {cardapioItem.preco}
+                            </button>
+                        </div>
+                    ) : null
+                    )}
                 </ModalContent>
-                <div className="overlay" onClick={() => closeModal()}>
-                </div>
+                <div className="overlay" onClick={closeModal}></div>
             </Modal>
         </>
     );

@@ -1,43 +1,40 @@
+import Cart from "../../components/Cart";
 import FotoPerfil, { Foto } from "../../components/FotoPerfil";
 import HeaderPerfil from "../../components/HeaderPerfil";
-import ListItensRestaurante, { ItensRestaurante } from "../../containers/ListItemRestaurante";
+import ListItensRestaurante from "../../containers/ListItemRestaurante";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Product } from "../Home";
 
 function Perfil() {
     const [foto, setFoto] = useState<Foto[]>([]);
-    const [itens, setItens] = useState<ItensRestaurante[]>([]);
+    const [itens, setItens] = useState<Product | null>(null);
     const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
-        fetch("https://fake-api-tau.vercel.app/api/efood/restaurantes")
+        fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes`)
             .then((res) => res.json())
             .then((res) => setFoto(res));
 
         fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
             .then((res) => res.json())
             .then((res) => {
-                setItens([res]);
+                setItens(res); 
             });
     }, [id]);
 
     const fotoFiltrada = id ? foto.find((foto) => foto.id === parseInt(id)) : undefined;
 
-    const itemFiltrado = id ? itens[0] : undefined;
-
-    const primeiroCardapio = itemFiltrado?.cardapio[0];
-
     return (
         <>
+            <Cart />
             <HeaderPerfil />
             <FotoPerfil foto={fotoFiltrada} />
-            <ListItensRestaurante
-                porcao={primeiroCardapio?.porcao || ''}
-                itens={itemFiltrado ? [itemFiltrado] : []} 
-                name={primeiroCardapio?.nome || ''}
-                descricao={primeiroCardapio?.descricao || ''} 
-                preco={primeiroCardapio ? primeiroCardapio.preco : 0} 
-            />
+            {itens && (
+                <ListItensRestaurante
+                    itens={itens} 
+                />
+            )}
         </>
     );
 }
