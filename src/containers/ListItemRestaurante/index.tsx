@@ -3,7 +3,7 @@ import ItemRestaurante from "../ItemRestaurante";
 import { Listagem, Modal, ModalContent } from "./styles";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { add } from "../../store/reducer/cartReducer";
+import { add, open } from "../../store/reducer/cartReducer";
 import { Cardapio, Product } from "../../pages/Home";
 
 type Props = {
@@ -17,6 +17,7 @@ type ModalState = {
 
 function ListItensRestaurante({ itens }: Props) {
     const dispatch = useDispatch();
+
     const [modal, setModal] = useState<ModalState>({
         isVisible: false,
         url: ''
@@ -36,6 +37,11 @@ function ListItensRestaurante({ itens }: Props) {
 
 const handleAddToCart = (cardapioItem: Cardapio) => {
     dispatch(add(cardapioItem));
+    dispatch(open())
+    setModal({
+        isVisible: false,
+        url: ''
+    })
 };
 
 

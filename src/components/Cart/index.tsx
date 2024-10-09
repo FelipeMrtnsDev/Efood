@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { CartContainer, CartItem, Overlay, Sidebar } from "./styles";
+import { ButtonComprar, CartContainer, CartItem, Overlay, Sidebar, Valor } from "./styles";
 import { RootReducer } from "../../store";
-import { close } from "../../store/reducer/cartReducer";
-import { Cardapio } from "../../pages/Home"; // Assegure-se de que Cardapio seja importado corretamente
+import { close, remover } from "../../store/reducer/cartReducer";
+import lixeira from '../../assets/images/lixeira-de-reciclagem 1.svg'
+import { Cardapio } from "../../pages/Home";
 
 function Cart() {
     const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
@@ -12,6 +13,16 @@ function Cart() {
         dispatch(close());
     }
 
+    const removerItem = (items: Cardapio) => {
+        dispatch(remover(items))
+    }
+
+    const getTotalPrice = () => {
+        return items.reduce((acumulador, valorAtual) => {
+        return (acumulador += valorAtual.preco!)
+        }, 0)
+    }
+
     return (
         <CartContainer className={isOpen ? 'is-open' : ''}>
             <Overlay onClick={closeCart} />
@@ -19,12 +30,31 @@ function Cart() {
                 <ul>
                     {items.map((item) => (
                         <CartItem>
-                            <img src={item.foto} alt="" />
-                            <h3>{item.nome}</h3>
-                            <p>{item.descricao}</p>
+                            <div className="card-item">
+                                <img className="imagem-produto" src={item.foto} alt={item.nome} />
+                                <div className="infos">
+                                    <h3>{item.nome}</h3>
+                                    <p>R$ {item.preco}</p>
+                                </div>
+                                <img
+                                onClick={() => removerItem(item)}
+                                className="lixeira" src={lixeira} alt="lixeira" />
+                            </div>
                         </CartItem>
                     ))}
                 </ul>
+                {items.length > 0 ? (
+                    <>
+                        <Valor>
+                            <p className="valor-total">Valor Total</p>
+                            <p className="preco">R$ {getTotalPrice()}</p>
+                        </Valor>
+                        <ButtonComprar>Continuar com a entrega</ButtonComprar>
+                    </>
+                ) : (
+                    <div>Carrinho Vazio...</div>
+                )
+                }
             </Sidebar>
         </CartContainer>
     );

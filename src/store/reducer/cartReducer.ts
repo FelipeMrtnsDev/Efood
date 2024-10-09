@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Cardapio, Product } from "../../pages/Home";
+import { Cardapio } from "../../pages/Home";
 
 type CartState = {
     items: Cardapio[];
@@ -23,6 +23,11 @@ const cartSlice = createSlice({
                 state.items.push(action.payload);
             }
         },
+        remover: (state, action: PayloadAction<Cardapio>) => {
+            const produtosFiltrados = state.items.filter((item) => item.id !== action.payload.id)
+
+            state.items = produtosFiltrados
+        },
         open: (state) => {
             state.isOpen = true;
         },
@@ -32,5 +37,5 @@ const cartSlice = createSlice({
     },
 })
 
-export const { add, open, close } = cartSlice.actions;
+export const { add, open, close, remover } = cartSlice.actions;
 export default cartSlice.reducer;
