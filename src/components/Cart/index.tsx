@@ -1,54 +1,65 @@
-import { useDispatch, useSelector } from "react-redux"
-import { CartContainer, CartItem, Overlay, Sidebar } from "./styles"
-import { RootReducer } from "../../store"
-import { close } from "../../store/reducer/cartReducer"
-import { Cardapio, Product } from "../../pages/Home"
+import { useDispatch, useSelector } from "react-redux";
+import { ButtonComprar, CartContainer, CartItem, Overlay, Sidebar, Valor } from "./styles";
+import { RootReducer } from "../../store";
+import { close, remover } from "../../store/reducer/cartReducer";
+import lixeira from '../../assets/images/lixeira-de-reciclagem 1.svg'
+import { Cardapio } from "../../pages/Home";
 
 function Cart() {
-    const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
-
-    const dispatch = useDispatch()
+    const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
+    const dispatch = useDispatch();
 
     const closeCart = () => {
-        dispatch(close())
+        dispatch(close());
     }
 
-    // const getTotalPrice = (): number => {
-    //     return items.reduce((acumulador: number , produto: Product) => {
-    //         // Itera sobre o array cardapio de cada produto
-    //         const precoTotal = produto.cardapio.reduce((subAcumulador: number, cardapioItem: Cardapio) => {
-    //             return subAcumulador + (cardapioItem.preco || 0); // Soma os preços dos itens do cardápio
-    //         }, 0);
-    //         return acumulador + precoTotal; // Adiciona o total do cardápio ao acumulador
-    //     }, 0);
-    // };
-    
-    
+    const removerItem = (items: Cardapio) => {
+        dispatch(remover(items))
+    }
+
+    const getTotalPrice = () => {
+        return items.reduce((acumulador, valorAtual) => {
+        return (acumulador += valorAtual.preco!)
+        }, 0)
+    }
 
     return (
         <CartContainer className={isOpen ? 'is-open' : ''}>
-            <Overlay onClick={closeCart}/>
-                <Sidebar>
-                    <ul>
-                    {items.map((item) => {
-                        return (
-                            console.log('oque esta retornando?', item),
-                            <CartItem key={item.id}>
-                                {item.cardapio.map((CardapioItem) => {
-                                    return (
-                                        <>
-                                            <img key={CardapioItem.id} src={CardapioItem.foto} alt={CardapioItem.nome} />
-                                            <h3>{CardapioItem.nome}</h3>
-                                        </>
-                                    )
-                                })}
-                            </CartItem>
-                        )
-                    })}
-                    </ul>
-                </Sidebar>
+            <Overlay onClick={closeCart} />
+            <Sidebar>
+                <ul>
+                    {items.map((item) => (
+                        <CartItem>
+                            <div className="card-item">
+                                <img className="imagem-produto" src={item.foto} alt={item.nome} />
+                                <div className="infos">
+                                    <h3>{item.nome}</h3>
+                                    <p>R$ {item.preco}</p>
+                                </div>
+                                <img
+                                onClick={() => removerItem(item)}
+                                className="lixeira" src={lixeira} alt="lixeira" />
+                            </div>
+                        </CartItem>
+                    ))}
+                </ul>
+                {items.length > 0 ? (
+                    <>
+                        <Valor>
+                            <p className="valor-total">Valor Total</p>
+                            <p className="preco">R$ {getTotalPrice()}</p>
+                        </Valor>
+                        <ButtonComprar>Continuar com a entrega</ButtonComprar>
+                    </>
+                ) : (
+                    <div>Carrinho Vazio...</div>
+                )
+                }
+            </Sidebar>
         </CartContainer>
-    )
+    );
 }
 
-export default Cart
+
+
+export default Cart;

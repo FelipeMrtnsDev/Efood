@@ -3,7 +3,7 @@ import ItemRestaurante from "../ItemRestaurante";
 import { Listagem, Modal, ModalContent } from "./styles";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { add } from "../../store/reducer/cartReducer";
+import { add, open } from "../../store/reducer/cartReducer";
 import { Cardapio, Product } from "../../pages/Home";
 
 type Props = {
@@ -17,15 +17,12 @@ type ModalState = {
 
 function ListItensRestaurante({ itens }: Props) {
     const dispatch = useDispatch();
+
     const [modal, setModal] = useState<ModalState>({
         isVisible: false,
         url: ''
     });
     const [itemClicado, setItemClicado] = useState(0)
-
-    const addToCart = (item: Product) => {
-        dispatch(add(item)); 
-    };
 
     const getDescricao = (descricao: string) => {
         return descricao.length > 134 ? descricao.slice(0, 134) + '...' : descricao;
@@ -37,6 +34,16 @@ function ListItensRestaurante({ itens }: Props) {
             url: ''
         });
     };
+
+const handleAddToCart = (cardapioItem: Cardapio) => {
+    dispatch(add(cardapioItem));
+    dispatch(open())
+    setModal({
+        isVisible: false,
+        url: ''
+    })
+};
+
 
     const getIdHandleClick = (item: Cardapio) => {
         setModal({
@@ -74,7 +81,7 @@ function ListItensRestaurante({ itens }: Props) {
                             <h4>{cardapioItem.nome}</h4>
                             <p>{cardapioItem.descricao}</p>
                             <p>{cardapioItem.porcao}</p>
-                            <button onClick={() => addToCart(itens)}>
+                            <button onClick={() => handleAddToCart(cardapioItem)}>
                                 Adicionar ao carrinho - R$ {cardapioItem.preco}
                             </button>
                         </div>

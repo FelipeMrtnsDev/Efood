@@ -35,33 +35,53 @@ export const Sidebar = styled.aside`
     width: 100%;
     height: 100%;
     z-index: 4;
-    display: flex;
 `;
 
 export const CartItem = styled.li`
-    display: flex;
     border-bottom: 1px solid ${cores.rosa};
-    padding: 8px 0;
     position: relative;
+    list-style-type: none;
 
-    img {
+    & .card-item {
+        background-color: ${cores.rosaClaro1};
+        width: 100%;
+        height: 100px;
+        margin-right: 8px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    & .imagem-produto {
         height: 80px;
         width: 80px;
         object-fit: cover;
-        margin-right: 24px;
+        margin-right: 8px;
+        margin-left: 8px;
+    }
+
+    & .lixeira {
+        font-size: 16px;
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        cursor: pointer;
     }
 
     h3 {
         color: ${cores.rosa};
         font-weight: bold;
-        font-size: 16px;
+        font-size: 18px;
+        line-height: 21.9px;
+        margin-bottom: 16px;
     }
 
-    span {
-        display: block;
+    p {
         color: ${cores.rosa};
-        font-weight: bold;
+        font-weight: 400;
         font-size: 14px;
+        line-height: 22px;
     }
 
     button {
@@ -74,4 +94,25 @@ export const CartItem = styled.li`
         top: 8px;
         right: 0;
     }
+`
+
+export const Valor = styled.div`
+    display: flex;
+    justify-content: space-between;
+    color: ${cores.rosaClaro1};
+    margin-top: 24px;
+    margin-bottom: 8px;
+`
+
+export const ButtonComprar = styled.div`
+    width: 100%;
+    height: 24px;
+    color: ${cores.rosa};
+    background-color: ${cores.rosaClaro1};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
 `
