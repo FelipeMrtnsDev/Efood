@@ -23,10 +23,6 @@ function ListItensRestaurante({ itens }: Props) {
     });
     const [itemClicado, setItemClicado] = useState(0)
 
-    const addToCart = (item: Product) => {
-        dispatch(add(item)); 
-    };
-
     const getDescricao = (descricao: string) => {
         return descricao.length > 134 ? descricao.slice(0, 134) + '...' : descricao;
     };
@@ -37,6 +33,11 @@ function ListItensRestaurante({ itens }: Props) {
             url: ''
         });
     };
+
+const handleAddToCart = (cardapioItem: Cardapio) => {
+    dispatch(add(cardapioItem));
+};
+
 
     const getIdHandleClick = (item: Cardapio) => {
         setModal({
@@ -74,7 +75,7 @@ function ListItensRestaurante({ itens }: Props) {
                             <h4>{cardapioItem.nome}</h4>
                             <p>{cardapioItem.descricao}</p>
                             <p>{cardapioItem.porcao}</p>
-                            <button onClick={() => addToCart(itens)}>
+                            <button onClick={() => handleAddToCart(cardapioItem)}>
                                 Adicionar ao carrinho - R$ {cardapioItem.preco}
                             </button>
                         </div>
