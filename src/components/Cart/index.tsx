@@ -4,6 +4,7 @@ import { RootReducer } from "../../store";
 import { close, remover } from "../../store/reducer/cartReducer";
 import lixeira from '../../assets/images/lixeira-de-reciclagem 1.svg'
 import { Cardapio } from "../../pages/Home";
+import { formataPreco } from "../../containers/ListItemRestaurante";
 
 function Cart() {
     const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
@@ -34,7 +35,7 @@ function Cart() {
                                 <img className="imagem-produto" src={item.foto} alt={item.nome} />
                                 <div className="infos">
                                     <h3>{item.nome}</h3>
-                                    <p>R$ {item.preco}</p>
+                                    <p>R$ {formataPreco(item.preco)}</p>
                                 </div>
                                 <img
                                 onClick={() => removerItem(item)}
@@ -47,7 +48,7 @@ function Cart() {
                     <>
                         <Valor>
                             <p className="valor-total">Valor Total</p>
-                            <p className="preco">R$ {getTotalPrice()}</p>
+                            <p className="preco">R$ {formataPreco(getTotalPrice())}</p>
                         </Valor>
                         <ButtonComprar>Continuar com a entrega</ButtonComprar>
                     </>

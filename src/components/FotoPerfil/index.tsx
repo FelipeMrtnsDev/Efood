@@ -19,8 +19,10 @@ function FotoPerfil({ foto }: Props) {
         <>
             {foto ? (
                 <Imagem>
-                    <h3>{foto.titulo}</h3>
-                    <p>{foto.tipo}</p>
+                    <div className="container-texto">
+                        <h3>{foto.titulo}</h3>
+                        <p>{foto.tipo}</p>
+                    </div>
                     <img src={foto.capa} alt="" />
                 </Imagem>
                 ) : (

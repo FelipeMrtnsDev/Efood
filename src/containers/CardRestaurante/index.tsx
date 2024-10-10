@@ -37,7 +37,9 @@ function CardRestaurante({imagem, alt, nome, avaliacao, descricao, etiqueta1, et
             </S.DivImg>
             <S.TextoAvaliacao>
                 <h3>{nome}</h3>
-                <p>{avaliacao} <img src={estrela} alt="estrela" /></p>
+                <div className='avaliacao'>
+                    <p>{avaliacao} <img src={estrela} alt="estrela" /></p>
+                </div>
             </S.TextoAvaliacao>
             <S.DescricaoRestaurante>
                 <p>{getDescricao(descricao)}</p>

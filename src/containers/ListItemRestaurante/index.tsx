@@ -15,8 +15,16 @@ type ModalState = {
     url: string;
 };
 
+export const formataPreco = (preco = 0) => {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    }).format(preco)
+}
+
 function ListItensRestaurante({ itens }: Props) {
     const dispatch = useDispatch();
+
 
     const [modal, setModal] = useState<ModalState>({
         isVisible: false,
@@ -25,7 +33,7 @@ function ListItensRestaurante({ itens }: Props) {
     const [itemClicado, setItemClicado] = useState(0)
 
     const getDescricao = (descricao: string) => {
-        return descricao.length > 134 ? descricao.slice(0, 134) + '...' : descricao;
+        return descricao.length > 122 ? descricao.slice(0, 122) + '...' : descricao;
     };
 
     const closeModal = () => {
@@ -80,9 +88,9 @@ const handleAddToCart = (cardapioItem: Cardapio) => {
                         <div className="infos" key={cardapioItem.id}>
                             <h4>{cardapioItem.nome}</h4>
                             <p>{cardapioItem.descricao}</p>
-                            <p>{cardapioItem.porcao}</p>
+                            <p>Serve: de {cardapioItem.porcao}</p>
                             <button onClick={() => handleAddToCart(cardapioItem)}>
-                                Adicionar ao carrinho - R$ {cardapioItem.preco}
+                                Adicionar ao carrinho - R$ {formataPreco(cardapioItem.preco)}
                             </button>
                         </div>
                     ) : null

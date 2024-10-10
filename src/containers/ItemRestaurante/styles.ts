@@ -27,7 +27,7 @@ export const Tituloh2 = styled.div`
 
     h2 {
         font-size: 16px;
-        font-weight: bold;
+        font-weight: 900;
         color: ${cores.rosaClaro1};
     }
 `
@@ -35,9 +35,13 @@ export const Tituloh2 = styled.div`
 export const Descricao = styled.div`
     margin: 0px 8px 0px 8px;
 
+
     p {
+        line-height: 21px;
+        font-size: 14px;
         font-weight: 400;
         color: #fff;
+        margin-bottom: 18px;
     }
 `
 
@@ -45,6 +49,7 @@ export const Botao = styled(Link)`
     margin: 8px 8px 8px 8px;
     
     button {
+        background-color: ${cores.rosaClaro1};
         width: 100%;
         height: 24px;
         cursor: pointer;
