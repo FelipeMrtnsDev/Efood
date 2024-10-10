@@ -61,7 +61,7 @@ export const ModalContent = styled.div`
     }
 
     .img-container {
-        width: 280px;
+        width: 300px;
         height: 280px;
         padding: 32px;
         display: flex;
@@ -97,13 +97,16 @@ export const ModalContent = styled.div`
     } 
 
     button {
-        width: 218px;
+        width: 230px;
         padding: 6px;
         border: none;
         background-color: white;
         color: ${cores.rosa};
         font-weight: 900;
         cursor: pointer;
+        background-color: ${cores.rosaClaro1};
+        white-space: nowrap;
+        display: flex;
     }
 `
 

@@ -6,6 +6,7 @@ export const Imagem = styled.div`
     position: relative;
     top: 0;
     margin-bottom: 56px;
+    
 
     img {
         width: 100%;
@@ -24,11 +25,15 @@ export const Imagem = styled.div`
         opacity: 0.56;
     }
 
+    & .container-texto {
+        max-width: 1024px;
+        margin: 0 auto;
+    }
+
     p {
         position: absolute;
         top: 22px;
         max-width: 1024px;
-        left: 170px;
         font-weight: 100;
         font-size: 32px;
         line-height: 32px;
@@ -42,7 +47,6 @@ export const Imagem = styled.div`
         max-width: 1024px;
         font-weight: 900;
         font-size: 32px;
-        left: 170px;
         color: #fff;
         z-index: 1;
     }

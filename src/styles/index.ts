@@ -5,12 +5,14 @@ type Cores = {
     rosa: string
     rosaClaro: string
     rosaClaro1: string
+    branco: string
 }
 
 export const cores: Cores = {
     rosa: "#e66767",
     rosaClaro1: "#ffebd9",
-    rosaClaro: "#fff8f2"
+    rosaClaro: "#fff8f2",
+    branco: "#fff"
 }
 
 export const GlobalStyle = createGlobalStyle`
@@ -21,7 +23,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     body {
-        background-color: ${cores.rosaClaro};
+        background-color: ${cores.branco};
     }
 `
 

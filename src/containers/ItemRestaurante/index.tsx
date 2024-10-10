@@ -22,7 +22,7 @@ function ItemRestaurante({ imagem, alt, titulo,descricao, id, onClick }: Props) 
                     <p>{descricao}</p>
                 </Descricao>
                 <Botao to='#'>
-                    <button>Mais informações</button>
+                    <button>Adicionar ao carrinho</button>
                 </Botao>
             </Card>
     )

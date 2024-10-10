@@ -22,5 +22,6 @@ export const Information = styled.div`
 
     p {
         color: ${cores.rosa};
+        font-weight: 700;
     }
 `
